@@ -1,8 +1,8 @@
 % !TeX TS-program = xelatex
 \documentclass{resume-photo}
 
-% Agent / LLM high-signal example. Replace every X/Y value with evidence you can defend.
 \usepackage{enumitem}
+\usepackage{tabularx}
 \IfFontExistsTF{Noto Serif CJK SC}{
   \setCJKmainfont{Noto Serif CJK SC}[BoldFont=Noto Serif CJK SC Bold]
 }{
@@ -19,99 +19,69 @@
 \setlist[itemize]{itemsep=1pt,parsep=0pt,topsep=2pt}
 \newcommand{\Signal}[1]{\textbf{\textcolor{ResumeBlue}{#1}}}
 
-\hypersetup{
-  pdftitle={Agent / LLM 算法工程师简历示例},
-  pdfauthor={请替换为姓名},
-  pdfkeywords={Agent, LLM, RAG, SFT, RL, Evaluation}
+% 左中右一行：公司/项目 | 岗位 | 时间
+\newcommand{\ResumeItemRow}[3]{%
+  \par\noindent
+  \begin{tabularx}{\linewidth}{@{} >{\raggedright\arraybackslash}X >{\centering\arraybackslash}p{0.26\linewidth} >{\raggedleft\arraybackslash}p{0.22\linewidth} @{}}
+    {\heiti #1} & {\textit{#2}} & {#3} \\
+  \end{tabularx}
+  \par\vspace{1pt}%
 }
 
-\ResumeName{姓名}
+\hypersetup{
+  pdftitle={雷俊杰 - Agent 开发工程师简历},
+  pdfauthor={雷俊杰},
+  pdfkeywords={Agent, LLM, RAG, LangGraph, MCP, Evaluation}
+}
 
 \begin{document}
-\zihao{-4}\selectfont
 
-\ResumeContacts{
-  1XX-XXXX-XXXX,%
-  \ResumeUrl{mailto:name@example.com}{name@example.com},%
-  \ResumeUrl{https://github.com/yourname}{github.com/yourname},%
-  \textnormal{Agent / LLM 算法工程师}%
-}
-\ResumeTitle
+\section{基本信息}
 
-% 第一屏不堆“熟悉/掌握”，先给岗位定位和可核验的稀缺信号。
 \noindent
-\Signal{应届硕士｜Agent 系统、后训练与评测}：主导 X 个从 0 到 1 项目，覆盖 long-horizon harness、
-轨迹数据合成和 rubric eval；核心开源项目获 Xk stars / X 位真实用户，关键结果均可由代码、trace、
-benchmark 或线上数据复核。
+\begin{tabularx}{\linewidth}{@{} l X l X @{}}
+    \textbf{姓 名：} & 雷俊杰 & \textbf{年 龄：} & 24 \\
+    \textbf{电 话：} & 13183875463 & \textbf{邮 箱：} & \href{mailto:2531140249@qq.com}{2531140249@qq.com} \\
+    \textbf{学 校：} & 宜宾学院（2020.09--2024.06） & \textbf{学 历：} & 24 届统招本科 · 大数据与人工智能 \\
+\end{tabularx}
 
-\section{核心证据}
+\section{个人优势}
 \begin{itemize}
-  \item \textbf{公开影响力}：作为核心维护者持续贡献 X 个月，合入 X 个 PR、完成 X 次 release；项目被 X 个团队或开发者采用。
-  \item \textbf{系统所有权}：负责需求定义、架构取舍、实现与评测闭环，而非只调用模型 API；可现场解释关键代码、失败样本和替代方案。
-  \item \textbf{算法闭环}：围绕任务成功率、有效工具调用率、token 成本与延迟建立基线，完成数据构造、SFT/RL、评测和回归分析。
+  \item 2 年美团餐饮 SaaS 前端经验，熟悉复杂业务系统的需求拆解、交付、排障与跨团队协作。
+  \item 具备 Agent 应用全链路实践：LangGraph / Deep Agents 编排、Nacos 配置治理、LiteLLM 网关、Langfuse 观测评估、OpenSandbox 沙箱与 Milvus RAG 索引。
+  \item 前端背景带来产品意识与用户体验敏感度，能把 Agent 能力落到可用产品，而不是停留在 Demo。
 \end{itemize}
 
-\section{实习经历}
-\ResumeItem{某头部科技公司｜Agent 平台团队}
-[\textnormal{Agent 算法实习生}]
-[20XX.XX—20XX.XX]
+\section{项目经历和工作经历}
+
+\ResumeItemRow{美团｜营销 SaaS}{前端开发工程师（AI 方向）}{2024.06--2026.07}
 \begin{itemize}
-  \item \textbf{职责边界}：作为项目 owner，负责长程 Agent 从需求拆解、系统设计到上线评测，服务 X 类复杂任务、日均 X 次调用。
-  \item \textbf{Agent Harness}：将固定工作流升级为 Lead Agent 统一决策、sub-agent 隔离执行的动态架构；设计 X 层 middleware 管线处理上传、沙箱、悬空工具调用、压缩和记忆，使长任务完成率由 X\% 提升至 Y\%。
-  \item \textbf{Context Engineering}：按 write / select / compress / isolate 管理上下文；通过增量摘要与 checkpoint 将平均 token 成本降低 X\%，中断恢复成功率达到 Y\%。
-  \item \textbf{评测与回归}：建设 X 条真实任务集和可回放 trace，按规划、工具效率、错误恢复与结果质量分层评分；版本回归时间从 X 小时缩短至 Y 分钟。
+  \item 负责餐饮 SaaS 商家后台、商家 POS 端及美团点餐小程序自研低码框架的前端开发与维护，参与需求评审、技术方案设计和线上问题定位。
+  \item 开发 MCP Server 并接入 Agent，将商家小程序线上配置查询 / 变更能力工具化，减少人工查配置与工单流转，前端团队工单处理提效约 50\%。
+  \item 沉淀 3 个告警平台运维 Skills，将周报数据采集与填写自动化，覆盖小组成员，每周每人节省约 1h。
+  \item 在业务中落地 AI 辅助研发：使用 Codex、Cursor、CatPaw 等工具完成需求拆解、代码生成、单测与 Review；参与 spec coding 规范与验收清单制定，提升需求交付效率。
+  \item 参与低码框架日常维护与问题排查，保障商家侧页面稳定交付。
 \end{itemize}
 
-\section{开源与项目经历}
-\ResumeItem{Long-Horizon Agent Harness}
-[\textnormal{核心维护者｜仓库与技术报告链接}]
-[20XX.XX—至今]
+\vspace{2pt}
+\ResumeItemRow{企业知识库问答 Agent}{\href{https://github.com/JJ-front/Rag-Agent}{\textcolor{ResumeBlue}{GitHub超链接}}}{2026.07--2026.11}
 \begin{itemize}
-  \item \textbf{问题与责任}：针对多步骤任务中上下文膨胀、错误累积和恢复困难，主导可插拔 Agent runtime，负责架构、核心模块和 release。
-  \item \textbf{关键机制}：实现动态 skill 加载、sub-agent 调度、沙箱隔离和持久化 checkpoint；skill 仅注入索引并按需加载，单任务上下文占用降低 X\%。
-  \item \textbf{可靠性}：定义 dangling tool call、循环调用和执行超时等 X 类 failure mode，并用 verifier 阻断无效轨迹；长程任务成功率由 X\% 提升至 Y\%。
-  \item \textbf{外部证据}：开源后获得 Xk stars、X 位 contributor 和 X 个下游集成；提供最小复现、benchmark 配置、trace 与失败案例。
+  \item \textbf{Agent 编排}：基于 LangGraph + Deep Agents 构建主 Agent，负责任务规划、工具调用与子 Agent 分发；通过 Nacos 管理 AgentSpec、Prompt、Skill 与 MCP 配置，支持通过配置调整模型、工具和技能，降低配置分散与版本割裂。
+  \item \textbf{增量索引}：设计飞书知识库索引流水线，调用 Wiki / Docx API 拉取 blocks，还原文档树后结构化切片写入 Milvus；通过 revision\_id 比对跳过未变更文档，新版本写入后清理旧版本，避免重复索引。
+  \item \textbf{结构化切片}：针对飞书扁平 block 结构，保留标题路径、父子引用、表格表头与代码块边界；图片经视觉模型生成描述并上传 MinIO，解决图文混排场景下的上下文丢失。
+  \item \textbf{检索底座}：基于 Milvus 建立 Dense + BM25 Sparse 字段与中文 analyzer，支持稠密 / 稀疏索引写入，为混合召回与融合排序预留能力。
+  \item \textbf{可观测与评测}：接入 Langfuse 记录 trace、token 与成本，配置成本阈值告警 Webhook；基于 Langfuse Dataset + LLM-as-judge 搭建评测脚本，支持多维度加权评分。
+  \item \textbf{沙箱隔离}：基于 OpenSandbox 实现用户级沙箱，私有 /root 持久化、/shared 只读复用，防止 Agent 执行 AI 生成命令污染宿主机或其他用户；共享沙箱单独授权写 /shared 用于 Skill 分发。
+  \item \textbf{工程化}：使用 Docker Compose 编排 Langfuse、LiteLLM、Nacos、OpenSandbox、Milvus、MinIO 等 15 个服务；补充 13 个测试文件，覆盖文档构树、切片、Milvus Schema、MinIO 与部署链路。
 \end{itemize}
-
-\pagebreak
-
-\section{开源与项目经历（续）}
-\ResumeItem{Agent Trajectory Pipeline for SFT / RL}
-[\textnormal{项目 owner｜代码与实验报告链接}]
-[20XX.XX—20XX.XX]
-\begin{itemize}
-  \item \textbf{目标}：解决单一模型轨迹同质化和困难任务重复推理成本高的问题，搭建生成、执行、评测、清洗到导出的闭环流水线。
-  \item \textbf{数据合成}：统一接入 X 类模型与 scaffold，支持 checkpoint 续跑和失败报告回注；累计生成 X 条轨迹，困难任务有效样本占比由 X\% 提升至 Y\%。
-  \item \textbf{Rubric Eval}：将结果评分拆为可自动检查规则与 LLM judge，定位首次错误决策步骤并截断后续级联失败；模型区分度提升 Xpp，人工复核量下降 X\%。
-  \item \textbf{成本与效果}：相对“整题重复推理”基线，单条有效轨迹成本降低 X\%，benchmark 通过率提升 Xpp；报告样本量、基线、统计窗口与消融结果。
-\end{itemize}
-
-\ResumeItem{业务数据分析 Agent}
-[\textnormal{端到端负责人｜Demo 与案例链接}]
-[20XX.XX—20XX.XX]
-\begin{itemize}
-  \item \textbf{业务问题}：面向运营、产品与研发的多源分析任务，负责从需求定义到上线，覆盖数据查询、归因分析和报告生成，日均 X 次调用。
-  \item \textbf{工作流}：通过意图路由和 schema 驱动的 tool registry 编排查询、指标计算与报告生成；对 observation 做摘要与滑动截断，复杂任务完成率由 X\% 提升至 Y\%。
-  \item \textbf{上线结果}：报告生成时间由 X 分钟降至 Y 分钟，人工返工率下降 X\%，X 周留存率达到 Y\%；同时监控错误率、P95 延迟和单任务成本。
-\end{itemize}
-
-\section{研究与公开产出}
-\begin{itemize}
-  \item \textbf{论文 / 技术报告}：围绕 Agent 评测或后训练提出 X 方法；在 X benchmark、X 条样本上相对强基线提升 Xpp，并公开代码、配置与主要消融。
-  \item \textbf{开源贡献}：向 X 个主流项目提交 X 个 PR，其中 X 个涉及核心模块；维护 issue、release note 和迁移文档，证明持续协作而非一次性提交。
-  \item \textbf{技术传播}：发布 X 篇深度文章或 X 场分享，累计 X 次阅读；内容包含可运行示例、失败复盘和适用边界。
-\end{itemize}
-
-\section{教育背景}
-\ResumeItem{某大学｜计算机相关专业}
-[\textnormal{硕士｜排名 / 奖学金仅在有证据时填写}]
-[20XX.XX—20XX.XX]
 
 \section{专业技能}
 \begin{itemize}
-  \item \textbf{Agent / RAG}：工具调用、planning、multi-agent、memory、context engineering、sandbox、trace、eval、verifier。
-  \item \textbf{训练 / 推理}：PyTorch、Transformers、SFT、LoRA、DPO / GRPO、vLLM；能解释数据、目标函数、显存与吞吐取舍。
-  \item \textbf{工程}：Python、Linux、Git、Docker、SQL、服务化与可观测性；只保留能在面试中深入讨论或现场实现的技能。
+  \item 语言与后端：熟悉 Python（异步、类型标注、Pydantic）与 FastAPI，了解 SQL；具备前端工程化、低码框架与小程序开发背景。
+  \item Agent：熟悉 LangGraph、LangChain、Deep Agents、MCP、Skill、ReAct、多 Agent 协作与上下文管理。
+  \item RAG：掌握文档解析、结构化切片、Embedding 与 Milvus（Dense + BM25）索引；了解混合检索、RRF、Rerank 与检索评测指标。
+  \item LLM 基础设施：熟悉 LiteLLM、Langfuse、OpenSandbox、MinIO、Nacos 与 Docker Compose 的本地全链路搭建。
+  \item 评测与观测：了解 Langfuse Dataset / Experiment、LLM-as-judge、加权评分，以及 Trace、Token 与成本分析。
 \end{itemize}
 
 \end{document}

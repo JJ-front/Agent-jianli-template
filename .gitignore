@@ -11,6 +11,8 @@
 *.fls
 *.fdb_latexmk
 *.xdv
+.miktex-config
+.miktex-data
 
 # macOS
 .DS_Store

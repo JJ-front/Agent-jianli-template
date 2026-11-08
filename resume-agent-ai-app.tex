@@ -1,0 +1,90 @@
+% !TeX TS-program = xelatex
+% 定向版：AI 应用开发工程师（Agent / RAG 方向）
+\documentclass{resume-photo}
+
+\usepackage{enumitem}
+\usepackage{tabularx}
+\IfFontExistsTF{Noto Serif CJK SC}{
+  \setCJKmainfont{Noto Serif CJK SC}[BoldFont=Noto Serif CJK SC Bold]
+}{
+  \IfFontExistsTF{Songti SC}{
+    \setCJKmainfont{Songti SC}[BoldFont=Songti SC Bold]
+  }{}
+}
+\renewcommand{\heiti}{\bfseries}
+\definecolor{ResumeBlue}{HTML}{185ABD}
+\ExplSyntaxOn
+\cs_set:Npn \__resume_section_title_format:n #1
+  {\textcolor{ResumeBlue}{#1} \vspace{3pt} \color{ResumeBlue}\hrule}
+\ExplSyntaxOff
+\setlist[itemize]{itemsep=2pt,parsep=0pt,topsep=2pt}
+\newcommand{\Signal}[1]{\textbf{\textcolor{ResumeBlue}{#1}}}
+
+% 左中右一行：公司/项目 | 岗位 | 时间
+\newcommand{\ResumeItemRow}[3]{%
+  \par\noindent
+  \begin{tabularx}{\linewidth}{@{} >{\raggedright\arraybackslash}X >{\centering\arraybackslash}p{0.26\linewidth} >{\raggedleft\arraybackslash}p{0.22\linewidth} @{}}
+    {\heiti #1} & {\textit{#2}} & {#3} \\
+  \end{tabularx}
+  \par\vspace{1pt}%
+}
+
+\hypersetup{
+  pdftitle={雷俊杰 - AI 应用开发工程师简历},
+  pdfauthor={雷俊杰},
+  pdfkeywords={AI 应用开发, Agent, LLM, RAG, LangGraph, MCP, Python}
+}
+
+\begin{document}
+
+\section{基本信息}
+
+\noindent
+\begin{tabularx}{\linewidth}{@{} l X l X @{}}
+    \textbf{姓 名：} & 雷俊杰 & \textbf{年 龄：} & 24 \\
+    \textbf{电 话：} & 13183875463 & \textbf{邮 箱：} & \href{mailto:2531140249@qq.com}{2531140249@qq.com} \\
+    \textbf{学 校：} & 宜宾学院（2020.09--2024.06） & \textbf{学 历：} & 24 届统招本科 · 大数据与人工智能 \\
+\end{tabularx}
+
+\vspace{1pt}
+\noindent{\small\textcolor{ResumeBlue}{\textbf{2 年美团工程经验} \;|\; \textbf{Agent / RAG 工程实践} \;|\; \textbf{目标：AI 应用开发（Agent 方向）}}}
+
+\section{个人优势}
+\begin{itemize}
+  \item 2 年美团餐饮 SaaS 工程经验，熟悉复杂业务系统的需求拆解、技术方案设计、交付与线上问题定位。
+  \item 具备 Agent 应用工程实践：LangGraph / Deep Agents 编排、Nacos 配置治理、LiteLLM 模型网关、Langfuse 观测评估、OpenSandbox 沙箱与 Milvus 索引，能定位端到端问题。
+  \item 具备 Python 后端与前端全栈视角，能把 Agent 能力封装为可交付的产品功能，而不只是调用模型 API。
+\end{itemize}
+
+\section{项目经历和工作经历}
+
+\ResumeItemRow{美团｜营销 SaaS}{前端开发工程师（AI 方向）}{2024.06--2026.07}
+\begin{itemize}
+  \item 负责餐饮 SaaS 商家后台与商家 POS 端的前端开发，参与需求评审、技术方案设计与线上问题定位。
+  \item 参与美团点餐小程序自研低码框架的开发与维护，处理渲染异常、配置兼容与线上问题，保障商家侧页面稳定交付。
+  \item 开发 MCP Server 并接入 Agent，将商家小程序线上配置查询 / 变更能力工具化，减少人工查配置与工单流转，前端团队工单处理提效约 50\%。
+  \item 沉淀 3 个告警平台运维 Skills，将周报数据采集与填写自动化，覆盖小组成员，每周每人节省约 1h。
+  \item 在业务中落地 AI 辅助研发：使用 Codex、Cursor、CatPaw 完成需求拆解、代码生成、单测与 Review；参与 spec coding 规范与验收清单制定，提升交付效率。
+\end{itemize}
+
+\vspace{2pt}
+\ResumeItemRow{企业知识库问答 Agent{\small\hspace{0.6em}\href{https://github.com/JJ-front/Rag-Agent}{\textcolor{ResumeBlue}{（GitHub超链接）}}}}{Agent应用开发工程师}{2026.07--2026.11}
+\begin{itemize}
+  \item \textbf{Agent 编排}：基于 LangGraph + Deep Agents 构建主 Agent，负责任务规划、工具调用与子 Agent 分发；通过 Nacos 管理 AgentSpec、Prompt、Skill 与 MCP 配置，支持通过配置调整模型、工具和技能。
+  \item \textbf{RAG 索引}：调用飞书 Wiki / Docx API 拉取 blocks，还原文档树后结构化切片写入 Milvus；通过 revision\_id 比对跳过未变更文档，新版本写入后清理旧版本，避免重复索引。
+  \item \textbf{结构化切片}：针对飞书扁平 block 结构，保留标题路径、父子引用、表格表头与代码块边界；图片经视觉模型生成描述并上传 MinIO，解决图文混排的上下文丢失。
+  \item \textbf{检索与模型接入}：基于 Milvus 建立 Dense + BM25 Sparse 字段与中文 analyzer，为混合召回预留索引能力；通过 LiteLLM 统一模型入口，配置会话粘性以减少多模型切换的缓存失效。
+  \item \textbf{可观测与评测}：接入 Langfuse 记录 trace、token 与成本，配置成本阈值告警 Webhook；基于 Langfuse Dataset + LLM-as-judge 搭建评测脚本，支持多维度加权评分。
+  \item \textbf{沙箱与工程化}：基于 OpenSandbox 实现用户级沙箱，私有 /root 持久化、/shared 只读复用，隔离 Agent 执行环境；用 Docker Compose 编排 15 个服务，补充 13 个测试文件覆盖构树、切片、Milvus Schema、MinIO 与部署链路。
+\end{itemize}
+
+\section{专业技能}
+\begin{itemize}
+  \item 语言与后端：熟悉 Python（异步、类型标注、Pydantic）、FastAPI 与 SQL 基础；具备前端工程化、低码框架与小程序开发背景。
+  \item Agent 与 LLM 应用：熟悉 LangGraph、LangChain、Deep Agents、MCP、Skill、ReAct、Function Calling、多 Agent 协作与上下文管理。
+  \item RAG 与数据：掌握文档解析、结构化切片、Embedding、Milvus（Dense + BM25）索引；了解混合检索、RRF、Rerank 与检索评测指标。
+  \item 基础设施与观测：熟悉 LiteLLM、Langfuse、OpenSandbox、MinIO、Nacos、Docker Compose；了解 Trace / Token / 成本分析与 LLM-as-judge。
+  \item 工程化：熟悉 Docker Compose、Git、pytest，能独立完成本地全链路部署与问题排查。
+\end{itemize}
+
+\end{document}
