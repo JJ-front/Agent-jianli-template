@@ -18,6 +18,7 @@
   {\textcolor{ResumeBlue}{#1} \vspace{3pt} \color{ResumeBlue}\hrule}
 \ExplSyntaxOff
 \setlist[itemize]{itemsep=2pt,parsep=0pt,topsep=2pt}
+\linespread{1.10}
 \newcommand{\Signal}[1]{\textbf{\textcolor{ResumeBlue}{#1}}}
 
 % 左中右一行：公司/项目 | 岗位 | 时间
@@ -58,6 +59,21 @@
 
 \section{项目经历和工作经历}
 
+
+\ResumeItemRow{企业知识库问答 Agent{\small\hspace{0.6em}\href{https://github.com/JJ-front/Rag-Agent}{\textcolor{ResumeBlue}{（GitHub超链接）}}}}{Agent应用开发工程师}{2026.07--2026.11}
+\begin{itemize}
+  \item \textbf{Agent 编排}：基于 LangGraph + Deep Agents 构建主 Agent，负责任务规划、工具调用与子 Agent 分发；通过 Nacos 统一治理 AgentSpec、Prompt、Skill、MCP 与 RAG 配置，支持按配置调整模型、工具和技能。
+  \item \textbf{RAG 索引}：调用飞书 Wiki / Docx API 拉取 blocks，按标题层级还原 BlockNode 树并维护父子 / 兄弟关系；分类型切片正文、表格、代码与图片，保留标题路径、父块 ID 与顺序，保证语义完整、来源可溯。
+  \item \textbf{引用与多模态}：保护文档引用占位符并按切片内容筛选来源；图片经视觉模型结合父链与相邻块生成描述，上传 MinIO 私有桶并拒绝公共读，解决图文混排的上下文丢失。
+  \item \textbf{增量索引}：通过 revision\_id 比对跳过未变更文档；变更时先写入新版本切片，成功后再删除旧版本，避免索引期间出现检索空窗。
+  \item \textbf{混合检索}：基于 Milvus 建立 Dense + BM25 Sparse 字段与中文 analyzer，稠密侧默认 HNSW；支持 RRF / Weighted / Model 三种 Rerank 策略，通过配置切换。
+  \item \textbf{Agentic RAG}：首轮通过 before\_agent 中间件注入检索材料，Agent 可改写查询、限定知识空间再次检索，并按块关系补查父块与引用块；输出结构化回答（answered / partial / unanswerable + sources + gaps），约束来源不编造。
+  \item \textbf{Schema 演进}：写入前对 Milvus Schema 做全量兼容性预检，支持可空字段新增与 VARCHAR 扩容等原地变更，不可兼容差异提前报错；配套分批回填历史切片的标题元数据。
+  \item \textbf{可观测与评测}：接入 Langfuse 记录 trace、token 与成本，提供带签名校验的告警 Webhook；基于 Dataset + Experiment 计算检索 precision / recall，并用 LLM 分别评估回答 correctness 与 completeness。
+  \item \textbf{沙箱、鉴权与工程化}：基于 OpenSandbox 实现用户级隔离环境，私有 /root 持久化、/shared 只读复用；业务入口与 Agent Server 之间使用 JWT 传递可信身份；用 Docker Compose 编排 15 个服务，通过 LiteLLM 统一模型入口，累计 479 个测试用例。
+\end{itemize}
+
+\vspace{2pt}
 \ResumeItemRow{美团｜营销 SaaS}{前端开发工程师（AI 方向）}{2024.06--2026.07}
 \begin{itemize}
   \item 负责餐饮 SaaS 商家后台与商家 POS 端的前端开发，参与需求评审、技术方案设计与线上问题定位。
@@ -67,24 +83,13 @@
   \item 在业务中落地 AI 辅助研发：使用 Codex、Cursor、CatPaw 完成需求拆解、代码生成、单测与 Review；参与 spec coding 规范与验收清单制定，提升交付效率。
 \end{itemize}
 
-\vspace{2pt}
-\ResumeItemRow{企业知识库问答 Agent{\small\hspace{0.6em}\href{https://github.com/JJ-front/Rag-Agent}{\textcolor{ResumeBlue}{（GitHub超链接）}}}}{Agent应用开发工程师}{2026.07--2026.11}
-\begin{itemize}
-  \item \textbf{Agent 编排}：基于 LangGraph + Deep Agents 构建主 Agent，负责任务规划、工具调用与子 Agent 分发；通过 Nacos 管理 AgentSpec、Prompt、Skill 与 MCP 配置，支持通过配置调整模型、工具和技能。
-  \item \textbf{RAG 索引}：调用飞书 Wiki / Docx API 拉取 blocks，还原文档树后结构化切片写入 Milvus；通过 revision\_id 比对跳过未变更文档，新版本写入后清理旧版本，避免重复索引。
-  \item \textbf{结构化切片}：针对飞书扁平 block 结构，保留标题路径、父子引用、表格表头与代码块边界；图片经视觉模型生成描述并上传 MinIO，解决图文混排的上下文丢失。
-  \item \textbf{检索与模型接入}：基于 Milvus 建立 Dense + BM25 Sparse 字段与中文 analyzer，为混合召回预留索引能力；通过 LiteLLM 统一模型入口，配置会话粘性以减少多模型切换的缓存失效。
-  \item \textbf{可观测与评测}：接入 Langfuse 记录 trace、token 与成本，配置成本阈值告警 Webhook；基于 Langfuse Dataset + LLM-as-judge 搭建评测脚本，支持多维度加权评分。
-  \item \textbf{沙箱与工程化}：基于 OpenSandbox 实现用户级沙箱，私有 /root 持久化、/shared 只读复用，隔离 Agent 执行环境；用 Docker Compose 编排 15 个服务，补充 13 个测试文件覆盖构树、切片、Milvus Schema、MinIO 与部署链路。
-\end{itemize}
-
 \section{专业技能}
 \begin{itemize}
-  \item 语言与后端：熟悉 Python（异步、类型标注、Pydantic）、FastAPI 与 SQL 基础；具备前端工程化、低码框架与小程序开发背景。
-  \item Agent 与 LLM 应用：熟悉 LangGraph、LangChain、Deep Agents、MCP、Skill、ReAct、Function Calling、多 Agent 协作与上下文管理。
-  \item RAG 与数据：掌握文档解析、结构化切片、Embedding、Milvus（Dense + BM25）索引；了解混合检索、RRF、Rerank 与检索评测指标。
-  \item 基础设施与观测：熟悉 LiteLLM、Langfuse、OpenSandbox、MinIO、Nacos、Docker Compose；了解 Trace / Token / 成本分析与 LLM-as-judge。
-  \item 工程化：熟悉 Docker Compose、Git、pytest，能独立完成本地全链路部署与问题排查。
+  \item 语言与后端：熟练使用 Python（异步、类型标注、Pydantic）与 FastAPI；熟悉 Docker Compose、pytest、Git；具备前端工程化与小程序开发背景，能独立完成接口到页面的交付。
+  \item Agent 与 LLM 应用：熟悉 LangGraph、LangChain、Deep Agents、MCP、Skill、Function Calling、结构化输出与多 Agent 协作。
+  \item RAG 与数据：掌握文档解析、结构化切片、引用溯源与多模态索引；熟悉 Milvus（Dense + BM25、HNSW、中文 analyzer）、RRF / Rerank 与检索评测。
+  \item 基础设施与观测：熟悉 LiteLLM、Langfuse、Nacos、OpenSandbox、MinIO、Docker Compose；能完成容器化部署与全链路排障。
+  \item 安全与工程化：了解 JWT 鉴权、Webhook 签名校验、Milvus Schema 兼容性预检与增量索引；熟悉 Git、pytest 与问题定位。
 \end{itemize}
 
 \end{document}
